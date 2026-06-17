@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kali-Pinter - Menu Utama</title>
+    <style>
+
+.menu-btn{
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.menu-btn:hover{
+    transform: scale(1.05);
+}
+
+.menu-btn:active{
+    transform: scale(0.90);
+}
+
+.animasi-klik{
+    animation: bounceKlik 0.4s;
+}
+
+@keyframes bounceKlik{
+    0%{
+        transform: scale(1);
+    }
+    30%{
+        transform: scale(0.85);
+    }
+    60%{
+        transform: scale(1.1);
+    }
+    100%{
+        transform: scale(1);
+    }
+}
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(
+        180deg,
+        #d9f5c7,
+        #bdecb6
+    );
+}
+
+        
+        /* Kontainer ini mengunci ukuran gambar agar rasionya tidak rusak di monitor */
+        .container-app{
+    position:relative;
+
+    width:450px;
+    height:100vh;
+
+    background-image:url('menu.jpg.jpeg');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+
+    animation:muncul .8s ease;
+}
+        
+       /* 1. Fondasi dasar tombol (Sekarang diubah menjadi transparan penuh) */
+        .tombol-transparan {
+            position: absolute;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0); /* Mengubah merah menjadi transparan */
+            border: none; /* Menghilangkan garis kuning */
+            outline: none;
+        }
+
+        /* 2. Mengatur posisi dan ukuran presisi masing-masing tombol */
+        .btn-main { 
+            top: 48.5%;    /* Diturunkan lagi dari dahan pohon agar pas di tombol Main Sekarang */
+            left: 24.5%; 
+            width: 51%; 
+            height: 11%; 
+        }
+        .btn-ujian { 
+            top: 63.5%;    /* Diturunkan lagi agar pas membungkus tombol Ujian */
+            left: 33.5%; 
+            width: 33%; 
+            height: 8.5%; 
+        }
+        .btn-tabel { 
+            top: 75.5%;    /* Diturunkan lagi agar pas membungkus Tabel Perkalian */
+            left: 27%; 
+            width: 46%; 
+            height: 9.5%; 
+        }
+    </style>
+    <style>
+      .menu-content{
+    position:absolute;
+    top:600px; /* lebih bawah */
+
+    left:50%;
+    transform:translateX(-50%);
+
+    width:100%;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:20px;
+}
+.menu-card:nth-child(1){
+    border:4px solid #4dd0e1;
+}
+
+.menu-card:nth-child(2){
+    border:4px solid #ffd54f;
+}
+
+.menu-card:nth-child(3){
+    border:4px solid #81c784;
+}
+
+.judul{
+    color:#5d6d5d;
+    font-size:42px;
+    margin-bottom:60px;
+
+    text-shadow:
+        2px 2px 0 white,
+        4px 4px 8px rgba(0,0,0,.2);
+
+    animation:goyang 3s infinite ease-in-out;
+}
+
+.menu-card{
+    width:70%;
+    max-width:320px;
+
+    height:75px;
+
+    border:none;
+    border-radius:40px;
+
+    background:white;
+
+    font-size:22px;
+    font-weight:bold;
+
+    color:#36b7c8;
+
+    box-shadow:
+        0 6px 15px rgba(0,0,0,.15);
+
+    transition:.3s;
+}
+
+.menu-card:hover{
+    transform:translateY(-5px) scale(1.05);
+}
+
+.menu-card:active{
+    transform:scale(.95);
+}
+
+.btn-main{
+    animation:pulse 2s infinite;
+    transform:scale(1.05);
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.05);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+
+@keyframes goyang{
+    0%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
+}
+
+        .menu-btn{
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .menu-btn:hover{
+            transform: scale(1.05);
+        }
+        
+        .menu-btn:active{
+            transform: scale(0.90);
+        }
+        
+        /* CSS yang sudah ada */
+        
+        .btn-tabel { 
+            top: 75.5%;
+            left: 27%;
+            width: 46%;
+            height: 9.5%;
+        }
+        
+        /* TAMBAHKAN DI SINI */
+        
+        .btn-musik{
+            position:fixed;
+            top:15px;
+            right:15px; 
+        
+            width:55px;
+            height:55px;
+        
+            border:none;
+            border-radius:50%;
+        
+            background:rgba(255,255,255,0.9);
+        
+            font-size:24px;
+            cursor:pointer;
+        
+            box-shadow:0 4px 15px rgba(0,0,0,.2);
+        
+            transition:all .3s ease;
+        
+            z-index:100;
+        }
+        .tombol-transparan:hover{
+    background:rgba(255,255,255,0.15);
+    border-radius:20px;
+    }
+
+        .tombol-transparan:active{
+    background:rgba(255,255,255,0.25);
+    }
+    .container-app{
+    filter: drop-shadow(0 0 20px rgba(0,0,0,.15));
+}
+        
+        .btn-musik:hover{
+            transform:scale(1.1);
+        }
+        
+        .btn-musik:active{
+            transform:scale(0.9);
+        }
+        
+        .container-app{
+            animation:muncul 0.8s ease;
+        }
+        
+        @keyframes muncul{
+            from{
+                opacity:0;
+                transform:scale(.95);
+            }
+        
+            to{
+                opacity:1;
+                transform:scale(1);
+            }
+        }
+        .menu-content{
+    position:absolute;
+
+    top:350px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:100%;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:20px;
+}
+        
+        </style>
+</head>
+
+<script>
+window.onload = function() {
+
+    const musik = document.getElementById("musikHome");
+
+    musik.volume = 0.5;
+
+    let playPromise = musik.play();
+
+    if(playPromise !== undefined){
+        playPromise.catch(() => {
+            document.addEventListener("click", function mulaiMusik(){
+                musik.play();
+                document.removeEventListener("click", mulaiMusik);
+            });
+        });
+    }
+};
+</script>
+<script>
+    let musikAktif = true;
+    
+    function toggleMusik() {
+    
+        const musik = document.getElementById("musikHome");
+        const tombol = document.getElementById("btnMusik");
+    
+        if(musikAktif){
+    
+            musik.pause();
+            tombol.innerHTML = "🔇";
+            musikAktif = false;
+    
+        }else{
+    
+            musik.play();
+            tombol.innerHTML = "🔊";
+            musikAktif = true;
+        }
+    }
+    </script>
+    <script>
+        function animasiPindah(tombol, halaman){
+        
+            tombol.classList.add("animasi-klik");
+        
+            setTimeout(() => {
+                window.location.href = halaman;
+            }, 350);
+        }
+        </script>
+
+    
+<body>
+
+    <audio id="musikHome" autoplay loop>
+        <source src="musik_anak.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container-app">
+
+        <div class="menu-content">
+
+            <button class="menu-card btn-main"
+                onclick="animasiPindah(this,'level.html')">
+                🎮 Main Sekarang
+            </button>
+
+            <button class="menu-card"
+                onclick="animasiPindah(this,'ujian.html')">
+                📝 Ujian
+            </button>
+
+            <button class="menu-card"
+                onclick="animasiPindah(this,'tabel_perkalian.html')">
+                📖 Tabel Perkalian
+            </button>
+
+        </div>
+
+    </div>
+
+    <button class="btn-musik"
+        onclick="toggleMusik()"
+        id="btnMusik">
+        🔊
+    </button>
+
+</body>
+</html>
+
