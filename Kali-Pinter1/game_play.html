@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kali-Pinter</title>
+    <style>
+        body, html { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            display: flex; justify-content: center; align-items: center; 
+            background:linear-gradient(
+    180deg,
+    #d9f5c7,
+    #bdecb6
+);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container-game{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    width:450px;
+    height:100vh;
+
+    background-image:url('bg kosong.jpg.jpeg');
+    background-size:cover;
+    background-position:center;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.15);
+
+    animation:muncul .8s ease;
+}
+
+.info-panel{
+    position:absolute;
+
+    top:20px;
+    right:20px;
+
+    background:white;
+
+    padding:15px;
+
+    border-radius:20px;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.15);
+
+    color:#5d6d5d;
+
+    font-weight:bold;
+}
+
+       
+        .content { 
+            flex: 1; 
+            display: flex; flex-direction: column; align-items: center; 
+            justify-content: center; width: 100%; 
+        }
+
+        .angka-besar{
+    font-size:72px;
+
+    color:#36b7c8;
+
+    font-weight:bold;
+
+    text-shadow:
+        2px 2px 0 white;
+}
+        .simbol-sama { font-size: 5vh; color: #00bcd4; margin: 2vh 0; }
+
+        .wrapper-pilihan{
+    display:flex;
+    flex-direction:column;
+
+    gap:15px;
+
+    width:80%;
+}
+
+.opsi-lingkar{
+    width:100%;
+    height:70px;
+
+    border:none;
+    border-radius:35px;
+
+    background:white !important;
+
+    color:#36b7c8;
+
+    font-size:24px;
+    pointer-events:auto;
+    cursor:pointer;
+    font-weight:bold;
+
+    box-shadow:
+        0 6px 15px rgba(0,0,0,.15);
+
+    transition:.3s;
+}
+.opsi-lingkar{
+    cursor:pointer;
+    border:3px solid red;
+}
+.opsi-lingkar:hover{
+    transform:
+        translateY(-3px)
+        scale(1.02);
+}
+.angka-besar{
+    animation:pop .4s;
+}
+.btn-keluar{
+    position:absolute;
+
+    top:20px;
+    left:20px;
+
+    background:white;
+
+    color:#36b7c8;
+
+    border:none;
+
+    border-radius:30px;
+
+    padding:12px 20px;
+
+    font-size:16px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,.15);
+
+    transition:.3s;
+
+    z-index:100;
+}
+
+.btn-keluar:hover{
+    transform:scale(1.05);
+}
+
+.btn-keluar:active{
+    transform:scale(.95);
+}
+
+@keyframes pop{
+    0%{
+        transform:scale(.8);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+
+        #layarHasil { 
+            display: none; position: absolute; top: 0; left: 0; 
+            width: 100%; height: 100%; background: white; 
+            border-radius: 35px; z-index: 10; 
+            flex-direction: column; justify-content: center; align-items: center; 
+            padding: 20px; box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div id="popup"></div>
+
+<audio id="musikGame" loop><source src="musik_anak.mp3" type="audio/mpeg"></audio>
+
+<div class="container-game">
+    <button class="btn-keluar" onclick="window.location.href='level.html'">← Keluar</button>
+    
+    <div class="info-panel">
+
+        <div id="txtNyawa">
+            ❤️❤️❤️
+        </div>
+    
+        <div id="txtLevel">
+            Level: Mudah
+        </div>
+    
+        <div id="txtSkor">
+            Skor: 0
+        </div>
+    
+        <div id="txtSoal">
+            Soal: 1/10
+        </div>
+    
+    </div>
+    
+    <div class="content">
+        <div class="angka-besar"><span id="angkaKiri">?</span> × <span id="angkaKanan">?</span></div>
+        <div class="simbol-sama">=</div>
+        
+        <div class="wrapper-pilihan">
+            <button class="opsi-lingkar" id="btn0"
+            onclick="cekJawaban(0)"></button>
+            
+            <button class="opsi-lingkar" id="btn1"
+            onclick="cekJawaban(1)"></button>
+            
+            <button class="opsi-lingkar" id="btn2"
+            onclick="cekJawaban(2)"></button>
+        </div>
+    </div>
+
+    <div id="layarHasil">
+        <h1>GAME SELESAI!</h1>
+        <p>Skor Akhir Kamu:</p>
+        <h2 id="skorAkhir">0</h2>
+        <button onclick="window.location.href='level.html'" style="padding:15px 30px; border-radius:20px; border:none; background:#00bcd4; color:white; font-size:2vh; cursor:pointer;">Pilih Level Lain</button>
+    </div>
+</div>
+
+<script>
+
+    document.body.addEventListener('click', () => {
+        let audio = document.getElementById('musikGame');
+        if(audio.paused){
+            audio.play();
+        }
+    }, { once:true });
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    let level = urlParams.get('level') || 'Mudah';
+    
+    let skor = 0;
+    let jumlahSoal = 1;
+    let jawabanBenar = 0;
+    
+    document.getElementById("txtLevel").innerText =
+    "Level: " + level;
+    
+    function buatSoal(){
+    
+        if(jumlahSoal > 10){
+    
+            document.getElementById("layarHasil").style.display = "flex";
+    
+            document.getElementById("skorAkhir").innerText =
+            skor;
+    
+            return;
+        }
+    
+        document.getElementById("txtSoal").innerText =
+        "Soal: " + jumlahSoal + "/10";
+    
+        let min;
+        let max;
+    
+        if(level === "Mudah"){
+    
+            min = 1;
+            max = 5;
+    
+        }else if(level === "Menengah"){
+    
+            min = 6;
+            max = 8;
+    
+        }else{
+    
+            min = 9;
+            max = 12;
+        }
+    
+        let a =
+        Math.floor(Math.random() * (max - min + 1)) + min;
+    
+        let b =
+        Math.floor(Math.random() * (max - min + 1)) + min;
+    
+        let benar = a * b;
+    
+        document.getElementById("angkaKiri").innerText = a;
+        document.getElementById("angkaKanan").innerText = b;
+    
+        let salah1 =
+        benar + Math.floor(Math.random() * 5) + 1;
+    
+        let salah2 =
+        benar - (Math.floor(Math.random() * 4) + 1);
+    
+        if(salah2 < 0){
+            salah2 = benar + 7;
+        }
+    
+        let opsi = [
+            benar,
+            salah1,
+            salah2
+        ];
+    
+        opsi.sort(() => Math.random() - 0.5);
+    
+        for(let i = 0; i < 3; i++){
+    
+            let tombol =
+            document.getElementById("btn" + i);
+    
+            tombol.innerText = opsi[i];
+    
+            tombol.dataset.nilai = opsi[i];
+    
+            tombol.dataset.benar = benar;
+    
+            tombol.disabled = false;
+        }
+    }
+    
+    function cekJawaban(idx){
+    
+        let tombol =
+        document.getElementById("btn" + idx);
+    
+        let nilai =
+        parseInt(tombol.dataset.nilai);
+    
+        let benar =
+        parseInt(tombol.dataset.benar);
+    
+        if(nilai === benar){
+    
+            skor += 10;
+    
+            tombol.style.background =
+            "#81c784";
+    
+        }else{
+    
+            tombol.style.background =
+            "#ef5350";
+        }
+    
+        document.getElementById("txtSkor").innerText =
+        "Skor: " + skor;
+    
+        document.querySelectorAll(".opsi-lingkar")
+        .forEach(btn => {
+            btn.disabled = true;
+        });
+    
+        setTimeout(() => {
+    
+            document.querySelectorAll(".opsi-lingkar")
+            .forEach(btn => {
+    
+                btn.style.background = "white";
+            });
+    
+            jumlahSoal++;
+    
+            buatSoal();
+    
+        }, 800);
+    }
+    
+    buatSoal();
+    
+    </script>
+</body>
+</html>

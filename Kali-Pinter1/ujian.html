@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kali-Pinter - Ujian</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+        }
+
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background:linear-gradient(
+    180deg,
+    #d9f5c7,
+    #bdecb6);
+    background-image:url('bg kosong.jpg.jpeg');
+background-size:cover;
+background-position:center;
+
+box-shadow:
+    0 10px 30px rgba(0,0,0,.15);
+        }
+
+        /* Container Utama Menggunakan Gambar Kosong Baru Anda */
+        .container-ujian {
+            position: relative;
+            width: 100%;
+            max-width: 540px; 
+            aspect-ratio: 10 / 16; 
+            background-image: url('bg kosong.jpg.jpeg'); /* Memanggil file background kosong */
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        /* Top Bar Navigasi & Status */
+        .top-bar{
+    position:absolute;
+
+    top:20px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:90%;
+
+    display:flex;
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.btn-keluar{
+    background:white;
+
+    color:#36b7c8;
+
+    border:none;
+
+    border-radius:30px;
+
+    padding:12px 20px;
+
+    font-weight:bold;
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,.15);
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+@keyframes pop{
+
+0%{
+    transform:scale(.8);
+}
+
+100%{
+    transform:scale(1);
+}
+}
+
+.btn-keluar:hover{
+    transform:scale(1.05);
+}
+
+        .status-teks{
+    background:white;
+
+    padding:12px 18px;
+
+    border-radius:20px;
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,.15);
+
+    color:#5d6d5d;
+
+    font-weight:bold;
+}
+
+        /* Area Pertanyaan Matematika Raksasa */
+        .area-soal-dinamis{
+
+position:absolute;
+
+top:160px;
+
+width:100%;
+
+text-align:center;
+
+color:#36b7c8;
+
+font-size:70px;
+
+font-weight:bold;
+
+text-shadow:
+    2px 2px 0 white;
+
+animation:pop .4s;
+}
+
+        /* Simbol Sama Dengan (=) */
+        .simbol-sama-dengan {
+            font-size: 14vw;
+            color: #12557a;
+            line-height: 1;
+            margin-top: -10px;
+        }
+
+        @media (min-width: 540px) {
+            .area-soal-dinamis { font-size: 85px; }
+            .simbol-sama-dengan { font-size: 75px; }
+        }
+
+        /* Baris Wadah Tombol Pilihan Ganda Bulat */
+        .wrapper-pilihan{
+
+position:absolute;
+
+bottom:180px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+width:80%;
+
+display:flex;
+flex-direction:column;
+
+gap:15px;
+}
+
+        /* Membuat Lingkaran Berwarna Murni Lewat CSS */
+        .opsi-lingkaran{
+
+width:100%;
+
+height:70px;
+
+border:none;
+
+border-radius:35px;
+
+background:white !important;
+
+color:#36b7c8;
+
+font-size:24px;
+
+font-weight:bold;
+
+box-shadow:
+    0 6px 15px rgba(0,0,0,.15);
+
+transition:.3s;
+}
+
+        @media (min-width: 540px) {
+            .opsi-lingkaran { font-size: 50px; }
+        }
+
+        /* Warna Pastel Bulatan CSS agar Senada dengan Tema Gambar */
+        .opsi-0 { background-color: #ff7675; } /* Merah Lembut */
+        .opsi-1 { background-color: #ffeaa7; color: #2d3436; } /* Kuning Lembut (Teks gelap) */
+        .opsi-2 { background-color: #55efc4; color: #2d3436; } /* Hijau Tosca Lembut */
+
+        .opsi-lingkaran:active {
+            transform: scale(0.9);
+        }
+        .opsi-lingkaran:hover{
+
+transform:
+    translateY(-3px)
+    scale(1.02);
+}
+
+        /* Desain Tombol Selanjutnya Menggunakan CSS Murni */
+        .btn-selanjutnya{
+
+position:absolute;
+
+bottom:70px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+width:70%;
+
+height:65px;
+
+border:none;
+
+border-radius:35px;
+
+background:#36b7c8;
+
+color:white;
+
+font-size:22px;
+
+font-weight:bold;
+
+box-shadow:
+    0 6px 15px rgba(0,0,0,.15);
+
+cursor:pointer;
+
+transition:.3s;
+}
+
+.btn-selanjutnya:hover{
+
+transform:
+    translateX(-50%)
+    scale(1.05);
+}
+
+        .btn-selanjutnya:active {
+            transform: scale(0.95);
+        }
+
+        /* Layar Hasil Akhir */
+        .layar-skor-akhir {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background:
+    linear-gradient(
+        180deg,
+        #d9f5c7,
+        #bdecb6);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .layar-skor-akhir h2 { font-size: 32px; color: #2f3542; margin-bottom: 10px; }
+        .angka-skor{
+
+font-size:90px;
+
+color:#36b7c8;
+
+font-weight:bold; }
+        .btn-main-lagi {
+            padding: 12px 35px;
+            background-color: #2ed573;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(46,213,115,0.4);
+        }
+
+        /* POPUP ANAK */
+
+.popup-hasil{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+.popup-box{
+    width:80%;
+    background:#fff;
+    border-radius:30px;
+    padding:25px;
+    text-align:center;
+    animation:zoomMasuk .3s ease;
+}
+
+.popup-emoji{
+    font-size:80px;
+}
+
+.popup-judul{
+    font-size:32px;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+.popup-pesan{
+    font-size:22px;
+    margin-bottom:20px;
+}
+
+.popup-btn{
+    padding:12px 35px;
+    border:none;
+    border-radius:30px;
+    background:#2ed573;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+@keyframes zoomMasuk{
+    from{
+        transform:scale(0.5);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+    </style>
+</head>
+<body>
+    <audio id="musikGame" loop><source src="musik_anak.mp3" type="audio/mpeg"></audio>
+
+    <div class="popup-hasil" id="popupHasil">
+        <div class="popup-box">
+            <div class="popup-emoji" id="popupEmoji">🎉</div>
+            <div class="popup-judul" id="popupJudul">HEBAT!</div>
+            <div class="popup-pesan" id="popupPesan">Jawabanmu Benar</div>
+    
+            <button class="popup-btn" onclick="lanjutSetelahPopup()">
+                Lanjut ➜
+            </button>
+        </div>
+    </div>
+    <div class="container-ujian">
+        
+        <div class="top-bar">
+            <button class="btn-keluar" onclick="window.location.href='index.html'">← Keluar</button>
+            <div class="status-teks" id="txtSkor">Skor: 0</div>
+            <div class="status-teks" id="txtNyawa">Nyawa: ❤️❤️❤️</div>
+        </div>
+
+        <div class="area-soal-dinamis">
+            <span id="tampilanSoal">1 x 5</span>
+            <span class="simbol-sama-dengan">=</span>
+        </div>
+
+        <div class="wrapper-pilihan">
+            <button class="opsi-lingkaran opsi-0" onclick="pilihJawaban(0)">7</button>
+            <button class="opsi-lingkaran opsi-1" onclick="pilihJawaban(1)">5</button>
+            <button class="opsi-lingkaran opsi-2" onclick="pilihJawaban(2)">2</button>
+        </div>
+
+        <button class="btn-selanjutnya" onclick="prosesTombolSelanjutnya()">Selanjutnya</button>
+
+        <div class="layar-skor-akhir" id="layarHasil">
+            <h2 id="judulHasil">🏆 Permainan Selesai!</h2>
+            <p>Skor Kamu:</p>
+        
+            <div class="angka-skor" id="skorAkhir">0</div>
+        
+            <button class="btn-main-lagi" onclick="resetGame()">
+                Main Lagi
+            </button>
+        
+            <br><br>
+        
+            <button class="btn-main-lagi"
+                style="background:#ff4757"
+                onclick="window.location.href='index.html'">
+                Menu Awal
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        let skor = 0;
+        let nyawa = 3;
+        let nilaiBenar = 0;
+        let arrayOpsi = [];
+        let sudahJawab = false;
+        let indeksPilihanUser = null;
+        let statusJawaban = false;
+        
+        document.body.addEventListener('click', () => {
+        let audio = document.getElementById('musikGame');
+        if(audio.paused) audio.play();
+    }, { once: true });
+
+    function tampilkanPopup(benar){
+
+statusJawaban = benar;
+
+const popup = document.getElementById("popupHasil");
+const emoji = document.getElementById("popupEmoji");
+const judul = document.getElementById("popupJudul");
+const pesan = document.getElementById("popupPesan");
+
+if(benar){
+
+    emoji.innerHTML = "🎉";
+    judul.innerHTML = "HEBAT!";
+    judul.style.color = "#2ed573";
+
+    pesan.innerHTML = "Jawabanmu Benar";
+
+}else{
+
+    emoji.innerHTML = "😢";
+    judul.innerHTML = "COBA LAGI";
+    judul.style.color = "#ff4757";
+
+    pesan.innerHTML =
+        "Jawaban yang benar adalah " + nilaiBenar;
+}
+
+popup.style.display = "flex";
+}
+
+function lanjutSetelahPopup(){
+
+document.getElementById("popupHasil").style.display = "none";
+
+updateStatusAtas();
+
+if(nyawa <= 0){
+
+    gameSelesai();
+
+    return;
+}
+
+buatPertanyaan();
+}
+
+        function resetGame() {
+            skor = 0;
+            nyawa = 3;
+            document.getElementById('layarHasil').style.display = 'none';
+            updateStatusAtas();
+            buatPertanyaan();
+        }
+
+        function updateStatusAtas() {
+            document.getElementById('txtSkor').innerText = `Skor: ${skor}`;
+            let hati = '';
+            for(let i=0; i<nyawa; i++) hati += '❤️';
+            document.getElementById('txtNyawa').innerText = `Nyawa: ${hati || '💀'}`;
+        }
+
+        function buatPertanyaan() {
+            if (nyawa <= 0) {
+                gameSelesai();
+                return;
+            }
+
+            sudahJawab = false;
+            indeksPilihanUser = null;
+
+            let a1, a2;
+
+if(skor < 70){
+
+    // Mudah
+    a1 = Math.floor(Math.random() * 9) + 1;
+    a2 = Math.floor(Math.random() * 9) + 1;
+
+}
+else{
+
+    // Sulit
+    a1 = Math.floor(Math.random() * 90) + 10; // 10 - 99
+    a2 = Math.floor(Math.random() * 9) + 2;   // 2 - 10
+}
+            nilaiBenar = a1 * a2;
+
+            document.getElementById('tampilanSoal').innerText = `${a1} x ${a2}`;
+
+            arrayOpsi = [nilaiBenar];
+
+while(arrayOpsi.length < 3) {
+
+    let selisih;
+
+    if(skor < 70){
+
+        // Level mudah
+        selisih = Math.floor(Math.random() * 10) + 1;
+
+    }else{
+
+        // Level sulit
+        selisih = Math.floor(Math.random() * 20) + 1;
+    }
+
+    let salah = Math.random() < 0.5
+        ? nilaiBenar + selisih
+        : nilaiBenar - selisih;
+
+    if(salah > 0 && !arrayOpsi.includes(salah)){
+        arrayOpsi.push(salah);
+    }
+}
+
+            arrayOpsi.sort(() => Math.random() - 0.5);
+
+            let tombolLingkar = document.getElementsByClassName('opsi-lingkaran');
+            for(let i=0; i<3; i++) {
+                tombolLingkar[i].innerText = arrayOpsi[i];
+                tombolLingkar[i].style.transform = "scale(1)";
+                tombolLingkar[i].style.opacity = "1";
+                tombolLingkar[i].style.border = "4px solid white"; 
+            }
+        }
+
+        function pilihJawaban(indeks) {
+            if(sudahJawab) return; 
+            
+            sudahJawab = true;
+            indeksPilihanUser = indeks;
+
+            let tombolLingkar = document.getElementsByClassName('opsi-lingkaran');
+            for(let i=0; i<3; i++) {
+                if(i !== indeks) {
+                    tombolLingkar[i].style.opacity = "0.4";
+                }
+            }
+            tombolLingkar[indeks].style.transform = "scale(1.1)";
+            tombolLingkar[indeks].style.border = "4px solid #2d3436"; // Beri penanda pilihan
+        }
+
+        function prosesTombolSelanjutnya() {
+
+if(!sudahJawab) {
+
+    tampilkanPopup(false);
+
+    document.getElementById("popupEmoji").innerHTML = "🤔";
+    document.getElementById("popupJudul").innerHTML = "PILIH DULU";
+    document.getElementById("popupJudul").style.color = "#ffa502";
+    document.getElementById("popupPesan").innerHTML =
+        "Silakan pilih salah satu jawaban";
+
+    return;
+}
+
+if (arrayOpsi[indeksPilihanUser] === nilaiBenar) {
+
+    skor += 10;
+    if(skor === 70){
+
+document.getElementById("popupEmoji").innerHTML = "🔥";
+document.getElementById("popupJudul").innerHTML = "LEVEL SULIT!";
+document.getElementById("popupJudul").style.color = "#ff6b00";
+document.getElementById("popupPesan").innerHTML =
+    "Sekarang soal perkalian menjadi lebih menantang!";
+
+document.getElementById("popupHasil").style.display = "flex";
+
+return;
+}
+
+    tampilkanPopup(true);
+
+} else {
+
+    nyawa--;
+
+    tampilkanPopup(false);
+}
+}
+function gameSelesai() {
+
+document.getElementById("layarHasil").style.display = "flex";
+
+document.getElementById("skorAkhir").innerHTML = skor;
+
+if(skor >= 100){
+
+    document.getElementById("judulHasil").innerHTML =
+        "🏆 Luar Biasa!";
+
+}else if(skor >= 70){
+
+    document.getElementById("judulHasil").innerHTML =
+        "⭐ Hebat!";
+
+}else if(skor >= 40){
+
+    document.getElementById("judulHasil").innerHTML =
+        "😊 Bagus!";
+
+}else{
+
+    document.getElementById("judulHasil").innerHTML =
+        "💪 Tetap Semangat!";
+}
+}
+        resetGame();
+    </script>
+</body>
+</html>
